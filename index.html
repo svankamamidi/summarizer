@@ -1,7 +1,7 @@
 <script type="module">
     import { pipeline } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.16.1';
 </script>
-
+<script>
 const generator = await pipeline('summarization', 'Xenova/distilbart-cnn-6-6');
 const text = 'The tower is 324 metres (1,063 ft) tall, about the same height as an 81-storey building, ' +
   'and the tallest structure in Paris. Its base is square, measuring 125 metres (410 ft) on each side. ' +
@@ -16,3 +16,4 @@ const output = await generator(text, {
 });
 // [{ summary_text: ' The Eiffel Tower is about the same height as an 81-storey building and the tallest structure in Paris. It is the second tallest free-standing structure in France after the Millau Viaduct.' }]
 console.log(output);
+</script>
