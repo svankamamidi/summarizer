@@ -10,7 +10,15 @@ const imageContainer = document.getElementById('image-container');
 
 // Create a new object detection pipeline
 status.textContent = 'Loading model...';
-const detector = await pipeline('object-detection', 'Xenova/detr-resnet-50');
+const generator = await pipeline('summarization', 'Xenova/distilbart-cnn-6-6');
+const text = 'The tower is 324 metres (1,063 ft) tall, about the same height as an 81-storey building, ' +
+  'and the tallest structure in Paris. Its base is square, measuring 125 metres (410 ft) on each side. ' +
+  'During its construction, the Eiffel Tower surpassed the Washington Monument to become the tallest ' +
+  'man-made structure in the world, a title it held for 41 years until the Chrysler Building in New ' +
+  'York City was finished in 1930. It was the first structure to reach a height of 300 metres. Due to ' +
+  'the addition of a broadcasting aerial at the top of the tower in 1957, it is now taller than the ' +
+  'Chrysler Building by 5.2 metres (17 ft). Excluding transmitters, the Eiffel Tower is the second ' +
+  'tallest free-standing structure in France after the Millau Viaduct.';
 status.textContent = 'Ready';
 
 fileUpload.addEventListener('change', function (e) {
@@ -36,38 +44,9 @@ fileUpload.addEventListener('change', function (e) {
 // Detect objects in the image
 async function detect(img) {
     status.textContent = 'Analysing...';
-    const output = await detector(img.src, {
-        threshold: 0.5,
-        percentage: true,
+    const output = await generator(text, {
+      max_new_tokens: 100,
     });
-    status.textContent = '';
-    output.forEach(renderBox);
+    console.log(output);
 }
 
-// Render a bounding box and label on the image
-function renderBox({ box, label }) {
-    const { xmax, xmin, ymax, ymin } = box;
-
-    // Generate a random color for the box
-    const color = '#' + Math.floor(Math.random() * 0xFFFFFF).toString(16).padStart(6, 0);
-
-    // Draw the box
-    const boxElement = document.createElement('div');
-    boxElement.className = 'bounding-box';
-    Object.assign(boxElement.style, {
-        borderColor: color,
-        left: 100 * xmin + '%',
-        top: 100 * ymin + '%',
-        width: 100 * (xmax - xmin) + '%',
-        height: 100 * (ymax - ymin) + '%',
-    })
-
-    // Draw label
-    const labelElement = document.createElement('span');
-    labelElement.textContent = label;
-    labelElement.className = 'bounding-box-label';
-    labelElement.style.backgroundColor = color;
-
-    boxElement.appendChild(labelElement);
-    imageContainer.appendChild(boxElement);
-}
