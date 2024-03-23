@@ -44,6 +44,7 @@ fileUpload.addEventListener('change', function (e) {
 // Detect objects in the image
 async function detect(img) {
     status.textContent = 'Analysing...';
+    console.log("text " + text);
     const output = await generator(text, {
       max_new_tokens: 100,
     });
