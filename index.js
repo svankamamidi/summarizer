@@ -22,6 +22,7 @@ const text = 'The tower is 324 metres (1,063 ft) tall, about the same height as 
 status.textContent = 'Ready';
 
 fileUpload.addEventListener('change', function (e) {
+    $('.loader').css('display','block');
     const file = e.target.files[0];
     if (!file) {
         return;
@@ -48,6 +49,7 @@ async function detect(img) {
     const output = await generator(text, {
       max_new_tokens: 100,
     });
+    $('.loader').css('display','none');
     console.log(output);
 }
 
