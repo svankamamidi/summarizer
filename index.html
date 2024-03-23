@@ -2,7 +2,8 @@
     import { pipeline } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.16.1';
 </script>
 
-<script type="module">
+<script /*type="module"*/>
+(async () => {
 try {
     const generator = await pipeline('summarization', 'Xenova/distilbart-cnn-6-6');
     const text = 'The tower is 324 metres (1,063 ft) tall, about the same height as an 81-storey building, ' +
@@ -21,4 +22,5 @@ try {
 } catch (e) {
     // Deal with the fact the chain failed
 }
+})();
 </script>
