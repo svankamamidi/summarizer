@@ -32,10 +32,10 @@ fileUpload.addEventListener('change', function (e) {
 
     // Set up a callback when the file is loaded
     reader.onload = function (e2) {
-        imageContainer.innerHTML = '';
-        const image = document.createElement('img');
-        image.src = e2.target.result;
-        imageContainer.appendChild(image);
+        //imageContainer.innerHTML = '';
+        //const image = document.createElement('img');
+        //image.src = e2.target.result;
+        //imageContainer.appendChild(image);
         detect(image);
     };
     reader.readAsDataURL(file);
