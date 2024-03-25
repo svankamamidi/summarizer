@@ -36,7 +36,7 @@ fileUpload.addEventListener('change', function (e) {
         //const image = document.createElement('img');
         //image.src = e2.target.result;
         //imageContainer.appendChild(image);
-        detect(image);
+        detect();
     };
     reader.readAsDataURL(file);
 });
