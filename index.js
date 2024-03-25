@@ -35,7 +35,7 @@ fileUpload.addEventListener('change', function (e) {
         extract(loadingTask);
         //detect();
     };
-    reader.readAsDataURL(file);
+    reader.readAsArrayBuffer(file);
 });
 
 function extract(loadingTask){
