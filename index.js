@@ -38,6 +38,7 @@ fileUpload.addEventListener('change', function (e) {
     reader.readAsArrayBuffer(file);
 });
 
+var aggregatedSummary = "";
 function extract(loadingTask){
     // Asynchronous download of PDF
     //pdfjsLib.getDocument(url);
@@ -61,9 +62,11 @@ function extract(loadingTask){
 
           // Render text
           for(var i = 0;i < pagesText.length;i++){
-            //TODO: Gather summary for each page!
+            //Gather summary for each page!
+            summary(pagesText[i]);
             $("#pdf-text").append("<div><h3>Page "+ (i + 1) +"</h3><p>"+pagesText[i]+"</p><br></div>")
           }
+          $('.loader').css('display','none');
       });
     }, function (reason) {
       // PDF loading error
@@ -94,7 +97,7 @@ function getPageText(pageNum, PDFDocumentInstance) {
   });
 }
 
-function process_full_contents(self, textLines):{
+/*function process_full_contents(self, textLines):{
   aggregatedSummaryLines = []
   concatanatedTextLines = ""        
   for textLine in textLines:
@@ -116,16 +119,26 @@ function process_full_contents(self, textLines):{
       return aggregatedSummaryLines
   else:
       return self.process_full_contents(aggregatedSummaryLines)        
+}*/
+
+function downloadFile(content){
+   const link = document.createElement("a");
+   //const content = document.querySelector("textarea").value;
+   const file = new Blob([content], { type: 'text/plain' });
+   link.href = URL.createObjectURL(file);
+   link.download = "summary.txt";
+   link.click();
+   URL.revokeObjectURL(link.href);
 }
 
 // Detect objects in the image
-async function detect(img) {
+async function summary(inputText) {
     
     console.log("text " + text);
     const output = await generator(text, {
       max_new_tokens: 100,
-    });
-    $('.loader').css('display','none');
+    });    
     console.log(output);
+    aggregatedSummary = aggregatedSummary + output[0].summary_text + "\n";
 }
 
