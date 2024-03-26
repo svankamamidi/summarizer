@@ -40,14 +40,14 @@ fileUpload.addEventListener('change', function (e) {
 
 var aggregatedSummary = "";
 function extract(loadingTask){
+    aggregatedSummary = "";
     // Asynchronous download of PDF
     //pdfjsLib.getDocument(url);
 
     loadingTask.promise.then(function(pdf) {
       console.log('PDF loaded');
-    var pdfDocument = pdf;
+      var pdfDocument = pdf;
       var pagesPromises = [];
-
 
       for (var i = 0; i < pdf.numPages; i++) {
           // Required to prevent that i is always the total of pages
@@ -67,6 +67,7 @@ function extract(loadingTask){
             $("#pdf-text").append("<div><h3>Page "+ (i + 1) +"</h3><p>"+pagesText[i]+"</p><br></div>")
           }
           $('.loader').css('display','none');
+          downloadFile(aggregatedSummary);
       });
     }, function (reason) {
       // PDF loading error
