@@ -141,5 +141,6 @@ async function summary(inputText) {
     });    
     console.log(output);
     aggregatedSummary = aggregatedSummary + output[0].summary_text + "\n";
+    return;
 }
 
