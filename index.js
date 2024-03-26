@@ -32,7 +32,10 @@ fileUpload.addEventListener('change', function (e) {
     reader.onload = function (e2) {
         var typedarray = new Uint8Array(this.result);
         const loadingTask = pdfjsLib.getDocument(typedarray);
-        extract(loadingTask);
+        extract(loadingTask).then(() => {
+            $('.loader').css('display','none');
+            downloadFile(aggregatedSummary);
+          });
         //detect();
     };
     reader.readAsArrayBuffer(file);
@@ -70,9 +73,7 @@ async function extract(loadingTask){
               console.log(e);
             }
             //$("#pdf-text").append("<div><h3>Page "+ (i + 1) +"</h3><p>"+pagesText[i]+"</p><br></div>")
-          }
-          $('.loader').css('display','none');
-          downloadFile(aggregatedSummary);
+          }          
       });
     }, function (reason) {
       // PDF loading error
