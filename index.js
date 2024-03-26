@@ -118,7 +118,7 @@ async function summary(inputText) {
       max_new_tokens: 100,
     });    
     console.log(output);
-    aggregatedSummary = aggregatedSummary + output[0].summary_text + "\n";
+    aggregatedSummary = aggregatedSummary + output[0].summary_text + "\n\n";
     return;
 }
 
