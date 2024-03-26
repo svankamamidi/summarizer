@@ -48,7 +48,8 @@ function extract(loadingTask){
       console.log('PDF loaded');
       var pdfDocument = pdf;
       var pagesPromises = [];
-
+      var pagesSummary = [];
+      
       for (var i = 0; i < pdf.numPages; i++) {
           // Required to prevent that i is always the total of pages
           (function (pageNumber) {
@@ -134,8 +135,8 @@ function downloadFile(content){
 // Detect objects in the image
 async function summary(inputText) {
     
-    console.log("text " + text);
-    const output = await generator(text, {
+    //console.log("text " + inputText);
+    const output = await generator(inputText, {
       max_new_tokens: 100,
     });    
     console.log(output);
