@@ -64,7 +64,7 @@ function extract(loadingTask){
           // Render text
           for(var i = 0;i < pagesText.length;i++){
             //Gather summary for each page!
-            summary(pagesText[i]);
+            await summary(pagesText[i]);
             //$("#pdf-text").append("<div><h3>Page "+ (i + 1) +"</h3><p>"+pagesText[i]+"</p><br></div>")
           }
           $('.loader').css('display','none');
