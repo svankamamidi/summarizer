@@ -32,17 +32,14 @@ fileUpload.addEventListener('change', function (e) {
     reader.onload = function (e2) {
         var typedarray = new Uint8Array(this.result);
         const loadingTask = pdfjsLib.getDocument(typedarray);
-        extract(loadingTask).then(() => {
-            $('.loader').css('display','none');
-            downloadFile(aggregatedSummary);
-          });
+        extract(loadingTask);
         //detect();
     };
     reader.readAsArrayBuffer(file);
 });
 
 var aggregatedSummary = "";
-async function extract(loadingTask){
+function extract(loadingTask){
     aggregatedSummary = "";
     // Asynchronous download of PDF
     //pdfjsLib.getDocument(url);
@@ -60,15 +57,18 @@ async function extract(loadingTask){
           })(i + 1);
       }
 
-      Promise.all(pagesPromises).then(function (pagesText) {
-          // Remove loading
-          //$("#loading-info").remove();
-
-          // Render text
+      Promise.all(pagesPromises).then(function (pagesText) {      
           for(var i = 0;i < pagesText.length;i++){
             //Gather summary for each page!
-            summary(pagesText[i]);            
-            //$("#pdf-text").append("<div><h3>Page "+ (i + 1) +"</h3><p>"+pagesText[i]+"</p><br></div>")
+            (function (pageNumber) {
+                pagesSummary.push(summary(pagesText[i]));
+            })(i);
+
+            Promise.all(pagesSummary).then(function (pagesText) {      
+              $('.loader').css('display','none');
+              downloadFile(aggregatedSummary);
+              //$("#pdf-text").append("<div><h3>Page "+ (i + 1) +"</h3><p>"+pagesText[i]+"</p><br></div>")
+            });
           }          
       });
     }, function (reason) {
@@ -99,6 +99,28 @@ function getPageText(pageNum, PDFDocumentInstance) {
   });
 }
 
+function downloadFile(content){
+   const link = document.createElement("a");
+   //const content = document.querySelector("textarea").value;
+   const file = new Blob([content], { type: 'text/plain' });
+   link.href = URL.createObjectURL(file);
+   link.download = "summary.txt";
+   link.click();
+   URL.revokeObjectURL(link.href);
+}
+
+// Detect objects in the image
+async function summary(inputText) {
+    
+    //console.log("text " + inputText);
+    const output = await generator(inputText, {
+      max_new_tokens: 100,
+    });    
+    console.log(output);
+    aggregatedSummary = aggregatedSummary + output[0].summary_text + "\n";
+    return;
+}
+
 /*function process_full_contents(self, textLines):{
   aggregatedSummaryLines = []
   concatanatedTextLines = ""        
@@ -122,26 +144,3 @@ function getPageText(pageNum, PDFDocumentInstance) {
   else:
       return self.process_full_contents(aggregatedSummaryLines)        
 }*/
-
-function downloadFile(content){
-   const link = document.createElement("a");
-   //const content = document.querySelector("textarea").value;
-   const file = new Blob([content], { type: 'text/plain' });
-   link.href = URL.createObjectURL(file);
-   link.download = "summary.txt";
-   link.click();
-   URL.revokeObjectURL(link.href);
-}
-
-// Detect objects in the image
-async function summary(inputText) {
-    
-    //console.log("text " + inputText);
-    const output = await generator(inputText, {
-      max_new_tokens: 100,
-    });    
-    console.log(output);
-    aggregatedSummary = aggregatedSummary + output[0].summary_text + "\n";
-    return output;
-}
-
