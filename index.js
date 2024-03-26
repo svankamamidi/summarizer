@@ -61,7 +61,8 @@ function extract(loadingTask){
           for(var i = 0;i < pagesText.length;i++){
             //Gather summary for each page!
             (function (pageNumber) {
-                pagesSummary.push(summary(pagesText[i]));
+              console.log("page " + pageNumber + " " + pagesText[i]);  
+              pagesSummary.push(summary(pagesText[i]));
             })(i);
 
             Promise.all(pagesSummary).then(function (pagesText) {      
