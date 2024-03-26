@@ -58,13 +58,13 @@ function extract(loadingTask){
 
       Promise.all(pagesPromises).then(function (pagesText) {
           // Remove loading
-          $("#loading-info").remove();
+          //$("#loading-info").remove();
 
           // Render text
           for(var i = 0;i < pagesText.length;i++){
             //Gather summary for each page!
             summary(pagesText[i]);
-            $("#pdf-text").append("<div><h3>Page "+ (i + 1) +"</h3><p>"+pagesText[i]+"</p><br></div>")
+            //$("#pdf-text").append("<div><h3>Page "+ (i + 1) +"</h3><p>"+pagesText[i]+"</p><br></div>")
           }
           $('.loader').css('display','none');
           downloadFile(aggregatedSummary);
@@ -87,7 +87,6 @@ function getPageText(pageNum, PDFDocumentInstance) {
               // Concatenate the string of the item to the final string
               for (var i = 0; i < textItems.length; i++) {
                   var item = textItems[i];
-
                   finalString += item.str + " ";
               }
 
