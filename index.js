@@ -61,6 +61,7 @@ function extract(loadingTask){
 
           // Render text
           for(var i = 0;i < pagesText.length;i++){
+            //TODO: Gather summary for each page!
             $("#pdf-text").append("<div><h3>Page "+ (i + 1) +"</h3><p>"+pagesText[i]+"</p><br></div>")
           }
       });
@@ -91,6 +92,30 @@ function getPageText(pageNum, PDFDocumentInstance) {
           });
       });
   });
+}
+
+function process_full_contents(self, textLines):{
+  aggregatedSummaryLines = []
+  concatanatedTextLines = ""        
+  for textLine in textLines:
+      #if word count is less than 380 words continue concatanation
+      if (len(concatanatedTextLines.split()) < 360): #380
+          concatanatedTextLines = concatanatedTextLines + textLine + "\n"
+          #print("textLine: " + textLine)
+      else:
+          #get summary and append it to new output ie aggregatedSummaryLines
+          print("concatanatedTextLines: " + concatanatedTextLines)
+          aggregatedSummaryLines.append(self.summarize_text(concatanatedTextLines) + "\n")                
+          print("aggregatedSummaryLine: " + "".join(aggregatedSummaryLines))
+          concatanatedTextLines = ""
+  if len(concatanatedTextLines) > 0:
+      aggregatedSummaryLines.append(self.summarize_text(concatanatedTextLines) + "\n")
+      concatanatedTextLines = ""
+      
+  if (len("".join(aggregatedSummaryLines).split()) <= 2000):
+      return aggregatedSummaryLines
+  else:
+      return self.process_full_contents(aggregatedSummaryLines)        
 }
 
 // Detect objects in the image
