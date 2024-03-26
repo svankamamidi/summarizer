@@ -39,7 +39,7 @@ fileUpload.addEventListener('change', function (e) {
 });
 
 var aggregatedSummary = "";
-function extract(loadingTask){
+async function extract(loadingTask){
     aggregatedSummary = "";
     // Asynchronous download of PDF
     //pdfjsLib.getDocument(url);
@@ -141,6 +141,6 @@ async function summary(inputText) {
     });    
     console.log(output);
     aggregatedSummary = aggregatedSummary + output[0].summary_text + "\n";
-    return output;
+    return;
 }
 
