@@ -7,14 +7,24 @@
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Transformers.js - Object Detection demo</title>
+    <title>Document summerization tool</title>
 </head>
 <div class="loader" id="loader" style="display:none"></div>
 <body>
+    <h2>Summerize your documents!!</h2><br/>
     <main class="container">
+        <div id="introduction">
+            <label>
+                You can upload pdf documents without password protected and we try to give a summary text file. This is an experimental software and we dont guarantee any accuracy. Please read below disclaimer note.
+            </label>
+        </div>
+        <P/>
+        <B>Disclaimer:></B><label> This is an experimental summarization tool and we dont guarantee any level of accuracy and we are in trial and improvement phase. Hence this is for experimentation and trials.
+          We are not responsible for any damages or loss caused by using the information provided by this tool. Please dont take information provided by this tool as advice or guidance.
+          This is a free and unfinished, experimental tool.  
         <label class="custom-file-upload">
             <input id="file-upload" type="file" accept="*/*" />
-            <img class="upload-icon" src="https://huggingface.co/datasets/Xenova/transformers.js-docs/resolve/main/upload-icon.png" />
+            <!--img class="upload-icon"  /-->
             Upload file
         </label>
         <div id="pdf-text">
