@@ -113,14 +113,14 @@ function downloadFile(content){
 }
 
 // Detect objects in the image
-async function summary(inputText) {
+async function summary(inputText, pageNum) {
     
     //console.log("text " + inputText);
     const output = await generator(inputText, {
       max_new_tokens: 100,
     });    
     console.log(output);
-    aggregatedSummary = aggregatedSummary + output[0].summary_text + "\n\n";
+    aggregatedSummary = aggregatedSummary + pageNum + " - " + output[0].summary_text + "\n\n";
     return;
 }
 
