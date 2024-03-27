@@ -9,9 +9,9 @@ var { pdfjsLib } = globalThis;
 pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.mjs';
 
 // Create a new object detection pipeline
-#const generator = await pipeline('summarization', 'Xenova/distilbart-cnn-6-6');
+//const generator = await pipeline('summarization', 'Xenova/distilbart-cnn-6-6');
 const generator = await pipeline('summarization', 'Xenova/t5-small');
-#const generator = await pipeline('summarization', 'Xenova/LaMini-Flan-T5-783M');
+//const generator = await pipeline('summarization', 'Xenova/LaMini-Flan-T5-783M');
 const text = 'The tower is 324 metres (1,063 ft) tall, about the same height as an 81-storey building, ' +
   'and the tallest structure in Paris. Its base is square, measuring 125 metres (410 ft) on each side. ' +
   'During its construction, the Eiffel Tower surpassed the Washington Monument to become the tallest ' +
