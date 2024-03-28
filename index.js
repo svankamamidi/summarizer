@@ -117,7 +117,7 @@ async function summary(inputText, pageNum) {
     
     //console.log("text " + inputText);
     const output = await generator(inputText, {
-      max_new_tokens: 100,
+      max_new_tokens: document.getElementById("condence-words").value,
     });    
     console.log(output);
     aggregatedSummary = aggregatedSummary + pageNum + " - " + output[0].summary_text + "\n\n";
