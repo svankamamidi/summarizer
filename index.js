@@ -157,6 +157,7 @@ function process_full_contents(textChunks){
             console.log("aggregatedSummaryLine: " + aggregatedSummaryLines.join());
             concatanatedTextLines = "";
         }
+      }
   }
   if (concatanatedTextLines && concatanatedTextLines.length > 0){
       aggregatedSummaryLines.push(summary2(concatanatedTextLines));
