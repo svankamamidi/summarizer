@@ -65,7 +65,7 @@ function extract(loadingTask){
             //Gather summary for each page!
             (function (pageNumber) {
               console.log("page " + pageNumber + " " + pagesText[i]);  
-              pagesSummary.push(summary(pagesText[i], pageNumber));
+              pagesSummary.push(pageSummary(pagesText[i], pageNumber));
             })(i);
 
             Promise.all(pagesSummary).then(function (pagesText) {      
@@ -113,9 +113,7 @@ function downloadFile(content){
    URL.revokeObjectURL(link.href);
 }
 
-// Detect objects in the image
-async function summary(inputText, pageNum) {
-    
+async function summary(inputText, pageNum) {    
     //console.log("text " + inputText);
     const output = await generator(inputText, {
       max_new_tokens: 300,//document.getElementById("condence-words").value,
@@ -124,6 +122,12 @@ async function summary(inputText, pageNum) {
     aggregatedSummary = aggregatedSummary + pageNum + " - " + output[0].summary_text + "\n\n";
     return;
 }
+
+async function pageSummary(inputText, pageNum) {
+  var pageTextArray = splitIntoSummarizableStrings(inputText);  
+  aggregatedSummary = aggregatedSummary + pageNum + " - " + process_full_contents(pageTextArray) + "\n\n";    
+}
+
 
 async function summary2(inputText, pageNum) {
     
@@ -136,26 +140,39 @@ async function summary2(inputText, pageNum) {
     return output[0].summary_text;
 }
 
-function process_full_contents(self, textLines):{
-  aggregatedSummaryLines = []
-  concatanatedTextLines = ""        
-  for textLine in textLines:
+function process_full_contents(textChunks):{
+  var aggregatedSummaryLines = [];
+  var concatanatedTextLines = "";
+  for (textLine of textChunks) {
+      if (textLine && textLine.length==0){
+        continue;
+      }
       //if word count is less than 380 words continue concatanation
-      if (len(concatanatedTextLines.split()) < 360): #380
-          concatanatedTextLines = concatanatedTextLines + textLine + "\n"
+      if (concatanatedTextLines.split(/\s+/).length < 360) //380
+          concatanatedTextLines = concatanatedTextLines + textLine + ".";
           //print("textLine: " + textLine)
       else:
           //get summary and append it to new output ie aggregatedSummaryLines
-          print("concatanatedTextLines: " + concatanatedTextLines)
-          aggregatedSummaryLines.append(self.summarize_text(concatanatedTextLines) + "\n")                
-          print("aggregatedSummaryLine: " + "".join(aggregatedSummaryLines))
-          concatanatedTextLines = ""
-  if len(concatanatedTextLines) > 0:
-      aggregatedSummaryLines.append(self.summarize_text(concatanatedTextLines) + "\n")
-      concatanatedTextLines = ""
-      
-  if (len("".join(aggregatedSummaryLines).split()) <= 2000):
-      return aggregatedSummaryLines
+          console.log("concatanatedTextLines: " + concatanatedTextLines);
+          aggregatedSummaryLines.push(summary2(concatanatedTextLines));       
+          console.log("aggregatedSummaryLine: " + aggregatedSummaryLines.join());
+          concatanatedTextLines = "";
+  }
+  if (concatanatedTextLines && concatanatedTextLines.length > 0)
+      aggregatedSummaryLines.push(summary2(concatanatedTextLines));
+      concatanatedTextLines = "";
+
+  var aggregatedSummaryStr = aggregatedSummaryLines.join();
+  if (aggregatedSummaryLines && aggregatedSummaryStr.split(/\s+/).length <= 2000) //go for 120 words instead of 2000
+      return aggregatedSummaryLines;
   else:
-      return self.process_full_contents(aggregatedSummaryLines)        
+      return process_full_contents(aggregatedSummaryStr);
+}
+
+/**
+* Returns array of strings with words less than or equal to 380
+* First split at periods (full stops)
+*/
+function splitIntoSummarizableStrings(pageText){
+  return pageText.split(".");
 }
