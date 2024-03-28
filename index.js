@@ -143,7 +143,7 @@ async function summary2(inputText, pageNum) {
 function process_full_contents(textChunks){
   var aggregatedSummaryLines = [];
   var concatanatedTextLines = "";
-  for (textLine of textChunks) {
+  for (const textLine of textChunks) {
       if (textLine && textLine.length > 0){        
         //if word count is less than 380 words continue concatanation
         if (concatanatedTextLines.split(/\s+/).length < 360) {//380
