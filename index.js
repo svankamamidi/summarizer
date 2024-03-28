@@ -140,7 +140,7 @@ async function summary2(inputText, pageNum) {
     return output[0].summary_text;
 }
 
-function process_full_contents(textChunks):{
+function process_full_contents(textChunks){
   var aggregatedSummaryLines = [];
   var concatanatedTextLines = "";
   for (textLine of textChunks) {
@@ -148,25 +148,29 @@ function process_full_contents(textChunks):{
         continue;
       }
       //if word count is less than 380 words continue concatanation
-      if (concatanatedTextLines.split(/\s+/).length < 360) //380
+      if (concatanatedTextLines.split(/\s+/).length < 360) //380{
           concatanatedTextLines = concatanatedTextLines + textLine + ".";
           //print("textLine: " + textLine)
-      else:
+      }
+      else{
           //get summary and append it to new output ie aggregatedSummaryLines
           console.log("concatanatedTextLines: " + concatanatedTextLines);
           aggregatedSummaryLines.push(summary2(concatanatedTextLines));       
           console.log("aggregatedSummaryLine: " + aggregatedSummaryLines.join());
           concatanatedTextLines = "";
+      }
   }
-  if (concatanatedTextLines && concatanatedTextLines.length > 0)
+  if (concatanatedTextLines && concatanatedTextLines.length > 0){
       aggregatedSummaryLines.push(summary2(concatanatedTextLines));
       concatanatedTextLines = "";
-
+  }
   var aggregatedSummaryStr = aggregatedSummaryLines.join();
-  if (aggregatedSummaryLines && aggregatedSummaryStr.split(/\s+/).length <= 2000) //go for 120 words instead of 2000
+  if (aggregatedSummaryLines && aggregatedSummaryStr.split(/\s+/).length <= 2000) {//go for 120 words instead of 2000
       return aggregatedSummaryLines;
-  else:
+  }
+  else{
       return process_full_contents(aggregatedSummaryStr);
+  }
 }
 
 /**
