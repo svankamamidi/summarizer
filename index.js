@@ -144,21 +144,19 @@ function process_full_contents(textChunks){
   var aggregatedSummaryLines = [];
   var concatanatedTextLines = "";
   for (textLine of textChunks) {
-      if (textLine && textLine.length==0){
-        continue;
-      }
-      //if word count is less than 380 words continue concatanation
-      if (concatanatedTextLines.split(/\s+/).length < 360) {//380
-          concatanatedTextLines = concatanatedTextLines + textLine + ".";
-          //print("textLine: " + textLine)
-      }
-      else{
-          //get summary and append it to new output ie aggregatedSummaryLines
-          console.log("concatanatedTextLines: " + concatanatedTextLines);
-          aggregatedSummaryLines.push(summary2(concatanatedTextLines));       
-          console.log("aggregatedSummaryLine: " + aggregatedSummaryLines.join());
-          concatanatedTextLines = "";
-      }
+      if (textLine && textLine.length > 0){        
+        //if word count is less than 380 words continue concatanation
+        if (concatanatedTextLines.split(/\s+/).length < 360) {//380
+            concatanatedTextLines = concatanatedTextLines + textLine + ".";
+            //print("textLine: " + textLine)
+        }
+        else{
+            //get summary and append it to new output ie aggregatedSummaryLines
+            console.log("concatanatedTextLines: " + concatanatedTextLines);
+            aggregatedSummaryLines.push(summary2(concatanatedTextLines));       
+            console.log("aggregatedSummaryLine: " + aggregatedSummaryLines.join());
+            concatanatedTextLines = "";
+        }
   }
   if (concatanatedTextLines && concatanatedTextLines.length > 0){
       aggregatedSummaryLines.push(summary2(concatanatedTextLines));
