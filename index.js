@@ -3,6 +3,7 @@ import { pipeline, env } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers
 // Since we will download the model from the Hugging Face Hub, we can skip the local model check
 env.allowLocalModels = false;
 
+var sudhakarAlgo = true;
 // Reference the elements that we will need
 const fileUpload = document.getElementById('file-upload');
 var { pdfjsLib } = globalThis;
@@ -124,16 +125,27 @@ async function summary(inputText, pageNum) {
     return;
 }
 
-/*function process_full_contents(self, textLines):{
+async function summary2(inputText, pageNum) {
+    
+    //console.log("text " + inputText);
+    const output = await generator(inputText, {
+      max_new_tokens: 300,//document.getElementById("condence-words").value,
+    });    
+    console.log(output);
+    //aggregatedSummary = aggregatedSummary + pageNum + " - " + output[0].summary_text + "\n\n";
+    return output[0].summary_text;
+}
+
+function process_full_contents(self, textLines):{
   aggregatedSummaryLines = []
   concatanatedTextLines = ""        
   for textLine in textLines:
-      #if word count is less than 380 words continue concatanation
+      //if word count is less than 380 words continue concatanation
       if (len(concatanatedTextLines.split()) < 360): #380
           concatanatedTextLines = concatanatedTextLines + textLine + "\n"
-          #print("textLine: " + textLine)
+          //print("textLine: " + textLine)
       else:
-          #get summary and append it to new output ie aggregatedSummaryLines
+          //get summary and append it to new output ie aggregatedSummaryLines
           print("concatanatedTextLines: " + concatanatedTextLines)
           aggregatedSummaryLines.append(self.summarize_text(concatanatedTextLines) + "\n")                
           print("aggregatedSummaryLine: " + "".join(aggregatedSummaryLines))
@@ -146,4 +158,4 @@ async function summary(inputText, pageNum) {
       return aggregatedSummaryLines
   else:
       return self.process_full_contents(aggregatedSummaryLines)        
-}*/
+}
