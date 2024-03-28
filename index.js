@@ -148,7 +148,7 @@ function process_full_contents(textChunks){
         continue;
       }
       //if word count is less than 380 words continue concatanation
-      if (concatanatedTextLines.split(/\s+/).length < 360) //380{
+      if (concatanatedTextLines.split(/\s+/).length < 360) {//380
           concatanatedTextLines = concatanatedTextLines + textLine + ".";
           //print("textLine: " + textLine)
       }
