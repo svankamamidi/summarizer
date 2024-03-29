@@ -125,7 +125,7 @@ async function summary(inputText, pageNum) {
 
 async function pageSummary(inputText, pageNum) {
   var pageTextArray = splitIntoSummarizableStrings(inputText);  
-  aggregatedSummary = aggregatedSummary + pageNum + " - " + process_full_contents(pageTextArray) + "\n\n";    
+  aggregatedSummary = aggregatedSummary + pageNum + " - " + process_full_contents(splitIntoSummarizableStrings(pageTextArray)) + "\n\n";    
 }
 
 
@@ -164,11 +164,11 @@ function process_full_contents(textChunks){
       concatanatedTextLines = "";
   }
   var aggregatedSummaryStr = aggregatedSummaryLines.join();
-  if (aggregatedSummaryLines && aggregatedSummaryStr.split(/\s+/).length <= 2000) {//go for 120 words instead of 2000
+  if (aggregatedSummaryStr && aggregatedSummaryStr.split(/\s+/).length <= 2000) {//go for 120 words instead of 2000
       return aggregatedSummaryLines;
   }
   else{
-      return process_full_contents(aggregatedSummaryStr);
+      return process_full_contents(aggregatedSummaryLines);
   }
 }
 
