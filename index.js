@@ -167,7 +167,7 @@ function process_full_contents(textChunks){
   if (aggregatedSummaryStr && aggregatedSummaryStr.split(/\s+/).length <= 2000) {//go for 120 words instead of 2000
       return aggregatedSummaryLines;
   }
-  else{
+  else if (aggregatedSummaryLines && aggregatedSummaryLines.length > 0){
       return process_full_contents(aggregatedSummaryLines);
   }
 }
