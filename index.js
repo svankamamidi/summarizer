@@ -163,6 +163,8 @@ function process_full_contents(textChunks){
   }
   else if (aggregatedSummaryLines && aggregatedSummaryLines.length > 0){
       return process_full_contents(aggregatedSummaryLines);
+  }else{
+      return "";
   }
 }
 
