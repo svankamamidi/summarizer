@@ -117,7 +117,7 @@ async function summary(inputText, pageNum) {
 
 function pageSummarizer(inputText, pageNum) {
   var pageTextArray = splitIntoSummarizableStrings(inputText);
-  process_full_contents(pageTextArray).promise.then(function(pageSummary) {
+  process_full_contents(pageTextArray).then(function(pageSummary) {
       console.log(pageNum + " " + pageSummary);
       aggregatedSummary = aggregatedSummary + pageNum + " - " + pageSummary + "\n\n";
   });
