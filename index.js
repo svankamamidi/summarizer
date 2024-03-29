@@ -117,7 +117,7 @@ async function summary(inputText, pageNum) {
 
 async function pageSummary(inputText, pageNum) {
   var pageTextArray = splitIntoSummarizableStrings(inputText);
-  var pageSummary = await process_full_contents(pageTextArray);
+  var pageSummary = process_full_contents(pageTextArray);
   console.log(pageNum + " " + pageSummary);
   aggregatedSummary = aggregatedSummary + pageNum + " - " + pageSummary + "\n\n";    
 }
@@ -147,7 +147,7 @@ function process_full_contents(textChunks){
         else{
             //get summary and append it to new output ie aggregatedSummaryLines
             console.log("concatanatedTextLines: " + concatanatedTextLines);
-            aggregatedSummaryLines.push(summary2(concatanatedTextLines));       
+            aggregatedSummaryLines.push(await summary2(concatanatedTextLines));       
             console.log("aggregatedSummaryLine: " + aggregatedSummaryLines.join());
             concatanatedTextLines = "";
         }
