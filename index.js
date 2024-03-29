@@ -13,14 +13,6 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.w
 //const generator = await pipeline('summarization', 'Xenova/distilbart-cnn-6-6');
 const generator = await pipeline('summarization', 'Xenova/t5-small');
 //const generator = await pipeline('summarization', 'Xenova/LaMini-Flan-T5-783M');
-const text = 'The tower is 324 metres (1,063 ft) tall, about the same height as an 81-storey building, ' +
-  'and the tallest structure in Paris. Its base is square, measuring 125 metres (410 ft) on each side. ' +
-  'During its construction, the Eiffel Tower surpassed the Washington Monument to become the tallest ' +
-  'man-made structure in the world, a title it held for 41 years until the Chrysler Building in New ' +
-  'York City was finished in 1930. It was the first structure to reach a height of 300 metres. Due to ' +
-  'the addition of a broadcasting aerial at the top of the tower in 1957, it is now taller than the ' +
-  'Chrysler Building by 5.2 metres (17 ft). Excluding transmitters, the Eiffel Tower is the second ' +
-  'tallest free-standing structure in France after the Millau Viaduct.';
 
 fileUpload.addEventListener('change', function (e) {
     $('.loader').css('display','block');
@@ -118,14 +110,16 @@ async function summary(inputText, pageNum) {
     const output = await generator(inputText, {
       max_new_tokens: 300,//document.getElementById("condence-words").value,
     });    
-    console.log(output);
+    //console.log(output);
     aggregatedSummary = aggregatedSummary + pageNum + " - " + output[0].summary_text + "\n\n";
     return;
 }
 
 async function pageSummary(inputText, pageNum) {
-  var pageTextArray = splitIntoSummarizableStrings(inputText);  
-  aggregatedSummary = aggregatedSummary + pageNum + " - " + process_full_contents(pageTextArray) + "\n\n";    
+  var pageTextArray = splitIntoSummarizableStrings(inputText);
+  var pageSummary = process_full_contents(pageTextArray);
+  console.log(pageNum + " " + pageSummary);
+  aggregatedSummary = aggregatedSummary + pageNum + " - " + pageSummary + "\n\n";    
 }
 
 
