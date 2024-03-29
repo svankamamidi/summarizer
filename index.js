@@ -117,7 +117,7 @@ async function summary(inputText, pageNum) {
 
 async function pageSummary(inputText, pageNum) {
   var pageTextArray = splitIntoSummarizableStrings(inputText);
-  var pageSummary = process_full_contents(pageTextArray);
+  var pageSummary = await process_full_contents(pageTextArray);
   console.log(pageNum + " " + pageSummary);
   aggregatedSummary = aggregatedSummary + pageNum + " - " + pageSummary + "\n\n";    
 }
