@@ -115,7 +115,7 @@ async function summary(inputText, pageNum) {
     return;
 }
 
-async function pageSummary(inputText, pageNum) {
+function pageSummary(inputText, pageNum) {
   var pageTextArray = splitIntoSummarizableStrings(inputText);
   var pageSummary = process_full_contents(pageTextArray);
   console.log(pageNum + " " + pageSummary);
@@ -129,7 +129,7 @@ async function summary2(inputText, pageNum) {
     const output = await generator(inputText, {
       max_new_tokens: 300,//document.getElementById("condence-words").value,
     });    
-    console.log(output);
+    console.log("Page " + pageNum + " " + output[0].summary_text);
     //aggregatedSummary = aggregatedSummary + pageNum + " - " + output[0].summary_text + "\n\n";
     return output[0].summary_text;
 }
@@ -147,7 +147,7 @@ function process_full_contents(textChunks){
         else{
             //get summary and append it to new output ie aggregatedSummaryLines
             console.log("concatanatedTextLines: " + concatanatedTextLines);
-            aggregatedSummaryLines.push(await summary2(concatanatedTextLines));       
+            aggregatedSummaryLines.push(summary2(concatanatedTextLines));       
             console.log("aggregatedSummaryLine: " + aggregatedSummaryLines.join());
             concatanatedTextLines = "";
         }
