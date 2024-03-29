@@ -11,8 +11,8 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.w
 
 // Create a new object detection pipeline
 //const generator = await pipeline('summarization', 'Xenova/distilbart-cnn-6-6');
-const generator = await pipeline('summarization', 'Xenova/t5-small');
-//const generator = await pipeline('summarization', 'Xenova/LaMini-Flan-T5-783M');
+//const generator = await pipeline('summarization', 'Xenova/t5-small');
+const generator = await pipeline('summarization', 'Xenova/LaMini-Flan-T5-783M');
 
 fileUpload.addEventListener('change', function (e) {
     $('.loader').css('display','block');
@@ -57,7 +57,7 @@ function extract(loadingTask){
             //Gather summary for each page!
             (function (pageNumber) {
               console.log("page " + pageNumber + " " + pagesText[i]);  
-              pagesSummary.push(pageSummary(pagesText[i], pageNumber));
+              pagesSummary.push(pageSummarizer(pagesText[i], pageNumber));
             })(i);
 
             Promise.all(pagesSummary).then(function (pagesText) {      
@@ -115,11 +115,12 @@ async function summary(inputText, pageNum) {
     return;
 }
 
-function pageSummary(inputText, pageNum) {
+function pageSummarizer(inputText, pageNum) {
   var pageTextArray = splitIntoSummarizableStrings(inputText);
-  var pageSummary = process_full_contents(pageTextArray);
-  console.log(pageNum + " " + pageSummary);
-  aggregatedSummary = aggregatedSummary + pageNum + " - " + pageSummary + "\n\n";    
+  process_full_contents(pageTextArray).promise.then(function(pageSummary) {
+      console.log(pageNum + " " + pageSummary);
+      aggregatedSummary = aggregatedSummary + pageNum + " - " + pageSummary + "\n\n";
+  });
 }
 
 
